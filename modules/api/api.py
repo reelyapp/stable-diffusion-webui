@@ -338,6 +338,8 @@ class Api:
                 processed = process_images(p)
             shared.state.end()
 
+        # Save image and upload to aws
+
         b64images = list(map(encode_pil_to_base64, processed.images)) if send_images else []
 
         return models.TextToImageResponse(images=b64images, parameters=vars(txt2imgreq), info=processed.js())
