@@ -52,17 +52,34 @@ def upload_image(file_name, image, object_name=None):
 #         return False
 #     return True
 
-# def upload_image():
-#     local_image_path = "pil_test.jpg"
-#     pil_image = Image.open(local_image_path)
-#     upload_file(local_image_path, pil_image)
+# TODO: Get username and 
+def put_image(ulid):
+    dynamodb = boto3.client('dynamodb', region_name="us-west-2" )
+    # Replace 'YOUR_TABLE_NAME' with the actual name of your DynamoDB table
+    # TODO
+    table_name = "advertisement-table-staging"
+
+    # Data to be inserted or updated in the DynamoDB table
+    item = {
+        "pk": {"S": f"IMAGE#{ulid}"},  # Assuming primary_key is of string type
+        "sk": {"S": f"IMAGE#{ulid}"},
+        "gs1pk": {"S": f"IMAGE#{ulid}"},
+        "gs1sk": {"S": f"IMAGE#{ulid}"},
+        "url": {"S": f"https://ad-creator-generated-images.s3.us-west-2.amazonaws.com/{ulid}"},
+    }
+
+    # Put the item into the DynamoDB table
+    response = dynamodb.put_item(
+        TableName=table_name,
+        Item=item
+    )
 
 
 def upload_base64_image(image):
     ulid = ULID()
     s3_client = boto3.client('s3')
     binary_content = base64.b64decode(image)
-    s3_client.put_object(Bucket=BUCKET, Key=ulid, Body=binary_content)
+    s3_client.put_object(Bucket=BUCKET, Key=str(ulid), Body=binary_content)
     return ulid
 
 # if __name__ == "__main__":

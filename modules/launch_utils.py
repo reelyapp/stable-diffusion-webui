@@ -294,6 +294,12 @@ def prepare_environment():
     if not is_installed("ngrok") and args.ngrok:
         run_pip("install ngrok", "ngrok")
 
+    # if not is_installed("boto3") and args.boto3:
+    #     run_pip("install boto3", "boto3")
+
+    # if not is_installed("python-ulid") and args.boto3:
+    #     run_pip("install python-ulid", "python-ulid")
+
     os.makedirs(os.path.join(script_path, dir_repos), exist_ok=True)
 
     git_clone(stable_diffusion_repo, repo_dir('stable-diffusion-stability-ai'), "Stable Diffusion", stable_diffusion_commit_hash)
