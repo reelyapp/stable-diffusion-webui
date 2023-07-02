@@ -341,4 +341,5 @@ def start():
     if '--nowebui' in sys.argv:
         webui.api_only()
     else:
+        print("********* launching web ui")
         webui.webui()

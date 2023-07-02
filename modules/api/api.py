@@ -27,6 +27,7 @@ from modules.sd_vae import vae_dict
 from modules.sd_models_config import find_checkpoint_config_near_filename
 from modules.realesrgan_model import get_realesrgan_models
 from modules import devices
+from modules import aws
 from typing import Dict, List, Any
 import piexif
 import piexif.helper
@@ -341,6 +342,9 @@ class Api:
         # Save image and upload to aws
 
         b64images = list(map(encode_pil_to_base64, processed.images)) if send_images else []
+
+        ulid = aws.upload_base64_image(b64images[0])
+        print("********** ulid is ", ulid)
 
         return models.TextToImageResponse(images=b64images, parameters=vars(txt2imgreq), info=processed.js())
 
