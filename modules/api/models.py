@@ -107,6 +107,8 @@ StableDiffusionTxt2ImgProcessingAPI = PydanticModelGenerator(
         {"key": "send_images", "type": bool, "default": True},
         {"key": "save_images", "type": bool, "default": False},
         {"key": "alwayson_scripts", "type": dict, "default": {}},
+        {"key": "advertisement_id", "type": str, "default": ""},
+        {"key": "username", "type": str, "default": ""},
     ]
 ).generate_model()
 

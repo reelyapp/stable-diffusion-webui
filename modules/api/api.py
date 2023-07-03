@@ -27,6 +27,7 @@ from modules.sd_vae import vae_dict
 from modules.sd_models_config import find_checkpoint_config_near_filename
 from modules.realesrgan_model import get_realesrgan_models
 from modules import devices
+from modules import aws
 from typing import Dict, List, Any
 import piexif
 import piexif.helper
@@ -298,6 +299,7 @@ class Api:
 
     def text2imgapi(self, txt2imgreq: models.StableDiffusionTxt2ImgProcessingAPI):
         script_runner = scripts.scripts_txt2img
+        print("******** text2imgapi is ", txt2imgreq)
         if not script_runner.scripts:
             script_runner.initialize_scripts(False)
             ui.create_ui()
@@ -339,6 +341,10 @@ class Api:
             shared.state.end()
 
         b64images = list(map(encode_pil_to_base64, processed.images)) if send_images else []
+
+        ulid = aws.s3_upload(b64images[0])
+
+        aws.dynamodb_put(ulid, args.pop('username'), args.pop('advertisement_id'))
 
         return models.TextToImageResponse(images=b64images, parameters=vars(txt2imgreq), info=processed.js())
 

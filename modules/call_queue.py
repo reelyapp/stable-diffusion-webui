@@ -18,6 +18,7 @@ def wrap_queued_call(func):
 
 
 def wrap_gradio_gpu_call(func, extra_outputs=None):
+    print("******* in wrap gradio gpu call")
     def f(*args, **kwargs):
 
         # if the first argument is a string that says "task(...)", it is treated as a job id
